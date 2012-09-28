@@ -12,15 +12,14 @@ class WKPdfView(object):
         command = "wkhtmltopdf"
         if 'WKHTMLTOPDF_PATH' in os.environ:
             command = os.environ['WKHTMLTOPDF_PATH']
-        url = self.request.URL
-        if '/@@wkpdf' not in url:
-            raise RuntimeError("This use case is not implemented yet")
-        url = url.replace('/@@wkpdf', '')
+        url = self.context.absolute_url()
         filepath = mktemp('.pdf')
         cookiepath = build_cookiejar(self.request)
 
         try:
-            check_call((command, '--cookie-jar', cookiepath, url, filepath),
+            check_call((command, '--print-media-type',
+                        '--cookie-jar', cookiepath,
+                        url, filepath),
                         stdout=PIPE, stderr=PIPE)
             self.request.response.setHeader("Content-type", "application/pdf")
             with open(filepath) as fh:

@@ -66,3 +66,8 @@ class TestWkPdfView(unittest.TestCase):
         self.assertEqual('%PDF', pdf_data[:4])
         # XXX TODO Check (probably with pdfquery)
         # that our real content is in the PDF, not just an error page
+
+    def test_from_script(self):
+        pass # XXX Test that a script like this works:
+        # data = context.restrictedTraverse('@@wkpdf')()
+        # return data
