@@ -16,7 +16,7 @@ You need to install wkhtmltopdf somewhere in PATH.
 Alternatively you can provide the path to wkhtmltopdf
 in the WKHTMLTOPDF_PATH environment variable.
 
-You can download it in a buildout this way:
+You can download it in a buildout this way::
 
     [wkhtmltopdf]
     recipe = hexagonit.recipe.download
