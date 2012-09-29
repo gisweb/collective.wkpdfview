@@ -2,6 +2,7 @@ import unittest2 as unittest
 import transaction
 
 from Products.CMFCore.utils import getToolByName
+from Products.SiteAccess.VirtualHostMonster import manage_addVirtualHostMonster
 
 from plone.app.testing import login, setRoles, TEST_USER_NAME
 from plone.app.testing import TEST_USER_ID, TEST_USER_PASSWORD
@@ -42,6 +43,21 @@ class TestWkPdfView(unittest.TestCase):
         # PDFs have magic byte %PDF
         self.assertEqual('%PDF', pdf_data[:4])
 
+    def test_with_virtualhost(self):
+        manage_addVirtualHostMonster(self.app, 'virtual_hosting')
+        transaction.commit()
+
+
+        path = ("/VirtualHostBase/http/some_host:80/%s/VirtualHostRoot/" %
+         self.portal.getId())
+        host, port = self.layer['zserver_info']
+        url = "http://%(host)s:%(port)i%(path)s/@@wkpdf" % locals()
+        result = urlopen(url)
+        pdf_data = result.read()
+        # PDFs have magic byte %PDF
+        self.assertEqual('%PDF', pdf_data[:4])
+
+
     def test_download_logged_in_page_as_pdf(self):
         # We create a (private) page
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
@@ -58,8 +74,6 @@ class TestWkPdfView(unittest.TestCase):
         ).rstrip())
         opener = build_opener()
         opener.addheaders.append(('Cookie', "__ac=%s" % cookie))
-
-
         result = opener.open(url)
         pdf_data = result.read()
         # PDFs have magic byte %PDF

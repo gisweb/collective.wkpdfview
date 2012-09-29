@@ -1,4 +1,5 @@
 import os
+import re
 from subprocess import check_call, PIPE
 from tempfile import mktemp
 from urlparse import urlparse
@@ -12,7 +13,12 @@ class WKPdfView(object):
         command = "wkhtmltopdf"
         if 'WKHTMLTOPDF_PATH' in os.environ:
             command = os.environ['WKHTMLTOPDF_PATH']
-        url = self.context.absolute_url()
+        host, port = self.request.HTTP_HOST.split(':')
+        if 'WKHTMLTOPDF_BASE' in os.environ:
+            host, port = os.environ['WKHTMLTOPDF_BASE'].split(':')
+        path = self.request.PATH_TRANSLATED.replace('/@@wkpdf', '')
+        path = re.sub('/(@@)?wkpdf(\?|$)', r'\2', path)
+        url = 'http://%s:%s%s' % (host, port, path)
         filepath = mktemp('.pdf')
         cookiepath = build_cookiejar(self.request)
 
