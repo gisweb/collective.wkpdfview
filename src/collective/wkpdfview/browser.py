@@ -1,6 +1,7 @@
 import os
 import re
 from subprocess import check_call, PIPE
+from subprocess import CalledProcessError
 from tempfile import mktemp
 from urlparse import urlparse
 
@@ -23,10 +24,15 @@ class WKPdfView(object):
         cookiepath = build_cookiejar(self.request)
 
         try:
-            check_call((command, '--print-media-type',
-                        '--cookie-jar', cookiepath,
-                        url, filepath),
-                        stdout=PIPE, stderr=PIPE)
+            try:
+                check_call((command, '--print-media-type',
+                            '--cookie-jar', cookiepath,
+                            url, filepath),
+                            stdout=PIPE, stderr=PIPE)
+            except CalledProcessError:
+                # wkhtmltopdf returns with a status 2 if some resources are missing
+                if not os.path.isfile(filepath):
+                    raise
             self.request.response.setHeader("Content-type", "application/pdf")
             with open(filepath) as fh:
                 filecontents = fh.read()
