@@ -17,11 +17,10 @@ class WKPdfView(object):
         host, port = self.request.HTTP_HOST.split(':')
         if 'WKHTMLTOPDF_BASE' in os.environ:
             host, port = os.environ['WKHTMLTOPDF_BASE'].split(':')
-        path = self.request.PATH_TRANSLATED.replace('/@@wkpdf', '')
-        path = re.sub('/(@@)?wkpdf(\?|$)', r'\2', path)
+        path = '/'.join(self.context.getPhysicalPath())
         url = 'http://%s:%s%s' % (host, port, path)
         filepath = mktemp('.pdf')
-        cookiepath = build_cookiejar(self.request)
+        cookiepath = build_cookiejar(self.request, host)
 
         try:
             try:
@@ -44,10 +43,12 @@ class WKPdfView(object):
                 os.unlink(cookiepath)
 
 
-def build_cookiejar(request):
-    u = urlparse(request.URL)
+def build_cookiejar(request, hostname=None):
+    if not hostname:
+        u = urlparse(request.URL)
+        hostname = u.hostname
     filename = mktemp('.jar')
     with open(filename, 'w') as fh:
         for k, v in request.cookies.items():
-            fh.write("%s=%s; domain=%s; path=/;\n" % (k, v, u.hostname))
+            fh.write("%s=%s; domain=%s; path=/;\n" % (k, v, hostname))
     return filename
