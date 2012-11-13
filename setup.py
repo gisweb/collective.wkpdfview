@@ -42,7 +42,11 @@ setup(name='collective.wkpdfview',
           'setuptools',
           # -*- Extra requirements: -*-
       ],
-      extras_require={'test': ['plone.app.testing']},
+      extras_require={
+        'test': [
+            'plone.app.testing',
+            'pdfquery',
+      ]},
       entry_points="""
       # -*- Entry points: -*-
       [z3c.autoinclude.plugin]
