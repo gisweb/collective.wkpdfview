@@ -22,6 +22,7 @@
       name="wkpdf"
       class=".browser.WKPdfView"
       permission="zope2.View"
+      allowed_attributes="get_pdf_file"
       />
 
 </configure>
