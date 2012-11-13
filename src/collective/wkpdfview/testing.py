@@ -14,7 +14,7 @@ class ExternalZServer(Layer):
     defaultBases = (PLONE_FUNCTIONAL_TESTING,)
     def setUp(self):
         # Start two-threaded zserver
-        # One will start the wkhtml2pdf binary, the other will respond to it
+        # One will start the phantomjs binary, the other will respond to it
         self['zserver_info'] = startZServer(number_of_threads=2)
     def tearDown(self):
         "Empty: I don't know how to tell the thread to stop"

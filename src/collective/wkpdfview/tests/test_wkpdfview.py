@@ -83,5 +83,5 @@ class TestWkPdfView(unittest.TestCase):
 
     def test_from_script(self):
         pass # XXX Test that a script like this works:
-        # data = context.restrictedTraverse('@@wkpdf')()
+        # data = context.restrictedTraverse('@@wkpdf').get_pdf_file()
         # return data

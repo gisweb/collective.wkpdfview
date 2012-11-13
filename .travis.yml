@@ -5,5 +5,4 @@ install:
   - python bootstrap.py
   - bin/buildout
 script:
-  - bin/test
-
+  - PHANTOMJS_PATH=$PWD/parts/phantomjs/phantomjs-1.7.0-linux-i686/bin/phantomjs bin/test
