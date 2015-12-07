@@ -69,7 +69,8 @@ if (phantom.args.length < 2 || phantom.args.length > 3) {
     address = phantom.args[0];
     output = phantom.args[1];
     %s
-    page.paperSize = {format: 'A4',  margin: "1cm"};
+    //page.paperSize = {format: "A4"};
+    page.viewportSize = { width: 1500, height: 1160 };
     page.open(address, function (status) {
         if (status !== 'success') {
             console.log('Unable to load the address!');
