@@ -23,6 +23,8 @@ class WKPdfView(object):
         if 'PHANTOMJS_BASE' in os.environ:
             host, port = os.environ['PHANTOMJS_BASE'].split(':')
         path = '/'.join(self.context.getPhysicalPath())
+        if self.request.get('QUERY_STRING'):
+            path = path + '?' + self.request.get('QUERY_STRING')
         url = 'http://%s:%s%s' % (host, port, path)
         filepath = mktemp('.pdf')
         scriptpath = make_scriptfile(self.request, host)
