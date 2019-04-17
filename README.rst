@@ -30,7 +30,7 @@ You can download it in a buildout this way::
 
     [phantomjs]
     recipe = hexagonit.recipe.download
-    url = https://phantomjs.googlecode.com/files/phantomjs-1.8.1-linux-x86_64.tar.bz2
+    url = https://repo1.maven.org/maven2/com/github/klieber/phantomjs/1.8.1/phantomjs-1.8.1-linux-x86_64.tar.bz2
     ignore-existing = true
 
 This will download phantomjs for a linux amd64 architecture.
