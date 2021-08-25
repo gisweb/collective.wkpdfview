@@ -1,6 +1,6 @@
 import os
-from subprocess import check_call, PIPE
-from subprocess import CalledProcessError
+from subprocess32 import check_call, PIPE
+from subprocess32 import CalledProcessError
 from tempfile import mktemp
 from urlparse import urlparse
 import json
