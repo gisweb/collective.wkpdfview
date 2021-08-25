@@ -31,7 +31,7 @@ class WKPdfView(object):
         try:
             try:
                 cmd_tuple = (command, scriptpath, url, filepath)
-                check_call(cmd_tuple, stdout=PIPE, stderr=PIPE)
+                check_call(cmd_tuple, stdout=PIPE, stderr=PIPE, timeout=10)
             except CalledProcessError:
                 # An error occurred
                 if not os.path.isfile(filepath):
