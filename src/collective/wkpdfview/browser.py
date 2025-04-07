@@ -22,9 +22,12 @@ class WKPdfView(object):
         command = "phantomjs"
         if 'PHANTOMJS_PATH' in os.environ:
             command = os.environ['PHANTOMJS_PATH']
-        host, port = self.request.HTTP_HOST.split(':')
+
         if 'PHANTOMJS_BASE' in os.environ:
             host, port = os.environ['PHANTOMJS_BASE'].split(':')
+        else:
+            host, port = self.request.HTTP_HOST.split(':')
+        
         path = '/'.join(self.context.getPhysicalPath())
         if self.request.get('QUERY_STRING'):
             path = path + '?' + self.request.get('QUERY_STRING')
